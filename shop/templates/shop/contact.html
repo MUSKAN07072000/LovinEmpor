@@ -1,0 +1,54 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}
+Contact Us
+{% endblock title %}
+{% block css %}
+<style>
+    textarea#exampleFormControlTextarea1 {
+        width: 1290px;
+        height: 297px;
+    }
+
+    .form-label {
+        font-weight: bolder;
+    }
+
+    #hrcont {
+        border: 5px solid black;
+    }
+</style>
+{% endblock css %}
+{% load static %}
+{% block body %}
+<div class="container">
+    <h4 style="text-align: center;"><b>It would be a great pleasure to help you!</b></h4>
+    <hr id="hrcont">
+    <form action="/shop/contact/" method="post"> {% csrf_token %}
+        <!-- email -->
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <!-- name -->
+        <div class="mb-3">
+            <label for="exampleInputName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name"  required>
+        </div>
+        <!-- mobile number -->
+        <div class="mb-3">
+            <label for="exampleInputNumber" class="form-label">Mobile Number</label>
+            <input type="tel" class="form-control" id="phone" name="phone" required>
+        </div>
+        <!-- message -->
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Type your text here</label>
+            <textarea class="form-control" id="desc" name="desc" rows="3" required></textarea>
+        </div>
+        <!-- button for submission -->
+        <button type="submit" class="btn btn-dark btn-sm">Send Message</button>
+    </form>
+</div>
+
+{% endblock body %}

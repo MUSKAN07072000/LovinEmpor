@@ -1,0 +1,67 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}AboutUs{% endblock title %}
+
+{% block css %}
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+
+{% endblock css %}
+
+{% block body %}
+<div class="container" style="padding-top: 10px;">
+    <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+        <div class="col-md-6 px-0">
+            <!-- main heading "aboutus" -->
+            <h1 class="display-4 fst-italic">About Us</h1>
+            <p class="lead my-3">Welcome to the <b>LovinEmpor</b>.</p>
+            <p>LovinEmpor provides you exclusive range of items you have been searching for as well as helps you in your
+               business growth. Join with us and grow your business rapidly.
+            </p>
+            <!-- <p class="lead mb-0"><a href="#" class="text-white fw-bold">Continue reading...</a></p> -->
+        </div>
+    </div>
+    <div class="container">
+        {% for i in head %}
+        <!-- START THE FEATURETTES -->
+        {% if forloop.counter|divisibleby:2 %}
+        <hr class="featurette-divider">
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">{{i.Head}} <span class="text-muted">{{i.HeadMute}}</span></h2>
+                <p class="lead">{{i.SHead|slice:":400"}}</p>
+                <a href="#">continue reading...</a>
+            </div>
+            <div class="col-md-5">
+                <img src="/media/{{i.Image}}" class="mx-auto" width="500px" height="500px" focusable="false">
+            </div>
+        </div>
+        {% else %}
+        <hr class="featurette-divider">
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">{{i.Head}}<span class="text-muted">{{i.HeadMute}}</span></h2>
+                <p class="lead">{{i.SHead|slice:":400"}}</p>
+                <a href="#">continue reading...</a>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <img src="/media/{{i.Image}}" class="mx-auto" width="500px" height="500px" focusable="false">
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endblock body %}

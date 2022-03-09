@@ -1,0 +1,26 @@
+{% extends 'shop/basic.html' %}
+{% block title %}
+paymentstatus
+{% endblock title%}
+{% block body %}
+<div class="container">
+    {{response}}
+    <div class="col my-4">
+        <h2>Payment status regarding your order Id {{response.ORDERID}}</h2>
+        <!-- if payment received -->
+        {% if response.RESPCODE == '01' %}
+        ORDER SUCCESS
+        <script>
+            alert("Your order has been placed successfully.thanks for ordering")
+            window.location = '/shop/tracker/';
+        </script>
+        {% else %}
+        ORDER FAILURE
+        <script>
+            alert("Oops something went wrong try again! Any deducted money will be refunded within one day.")
+        </script>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock body %}

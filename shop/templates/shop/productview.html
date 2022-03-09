@@ -1,0 +1,50 @@
+{% extends 'shop/basic.html' %}
+<!-- for title of productview so that it can display name of product name -->
+{% block title %}
+{% for i in product %}
+{{i.product_name}}
+{% endfor %}
+{% endblock title %}
+{% block css %}
+<style>
+    .card-img,
+    .card-img-top {
+        border-top-left-radius: calc(0.25rem - 1px);
+        border-top-right-radius: calc(0.25rem - 1px);
+        width: 500px;
+        height: 500px;
+    }
+</style>
+{% endblock css %}
+{% block body %}
+{% for i in product %}
+<div class="container-fluid" style="color: rgb(10, 10, 10);">
+    <div class="row">
+        <div class="col shadow p-3 mb-5 bg-body rounded">
+            <!-- card for image -->
+            <div class="card">
+                <img src="/media/{{i.product_image}}" class="card-img-top" alt="...">    
+            </div>
+        </div>
+        <div class="col">
+            <!-- card for description -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{i.product_name}}</h5>
+                    <h6><b>MRP Rs.{{i.product_price}}</b></h6>
+                    <hr>
+                    <p class="card-text">{{i.product_desc}}
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <button id="pr{{i.product_id}}" type="button" class="btn btn-primary btn-sm cart">Add to
+                        Cart</button>
+                    <button id="bn{{i.product_id}}" type="button" class="btn btn-secondary btn-sm cart">Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock body %}

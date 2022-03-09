@@ -1,0 +1,158 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} checkout {% endblock title %}
+{% block css %} {% endblock css %}
+{% block body %}
+
+<h5 class="mx-4 fw-bolder">ShoppingCart Items</h5>
+<hr>
+<div class="container my-4">
+    <ol id="items" class="list-group list-group-numbered">
+    </ol>
+    <div class="my-2 d-flex justify-content-end">
+        <button id="clearcart" type="button" class="btn btn-primary ">clearcart</button>
+    </div>
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Total price!</h4>
+        <p>Here is your total price.</p>
+        <hr>
+        <p class="mb-0">Your total price for your shopping is <b>MRPRs.<span id="totalPrice">0</span></b> only.</p>
+    </div>
+</div>
+
+<h5 class="mx-4 fw-bolder">Enter your Details</h5>
+<hr>
+<div class="container">
+    <form class="row g-3" method="post" action="/shop/checkout/">{% csrf_token %}
+        <input id="itemJson" name="itemJson" type="hidden">
+        <input id="amount" name="amount" type="hidden">
+        <div class="col-12">
+            <label for="inputEmail4" class="form-label">Name</label>
+            <input id='name' name="name" type="text" class="form-control" placeholder="name" aria-label="First name" required>
+        </div>
+        <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input id="email" name="email" type="email" class="form-control" id="inputEmail4" required>
+        </div>
+        <div class="col-md-6">
+            <label for="exampleInputNumber" class="form-label">Mobile Number</label>
+            <input id="tel" name="tel" type="tel" class="form-control" aria-describedby="emailHelp" required>
+        </div>
+        <div class="col-12">
+            <label for="inputAddress" class="form-label">Address</label>
+            <input id="address1" name="address1" type="text" class="form-control" placeholder="1234 Main St" required> 
+        </div>
+        <div class="col-12">
+            <label for="inputAddress2" class="form-label">Address 2</label>
+            <input id="address2" name="address2" type="text" class="form-control"
+                placeholder="Apartment, studio, or floor">
+        </div>
+        <div class="col-md-6">
+            <label for="inputCity" class="form-label">City</label>
+            <input id="city" name="city" type="text" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+            <label for="inputState" class="form-label">State</label>
+            <select id="state" name="state" class="form-select" required>
+                <option selected>Choose state...</option>
+                <option>Andhra Pradesh</option>
+                <option>Arunachal Pradesh</option>
+                <option>Assam</option>
+                <option>Bihar</option>
+                <option>Chhattisgarh</option>
+                <option>Goa</option>
+                <option>Gujarat</option>
+                <option>Haryana</option>
+                <option>Himachal Pradesh</option>
+                <option>Jharkhand</option>
+                <option> Karnataka</option>
+                <option> Kerala</option>
+                <option>Madhya Pradesh</option>
+                <option> Maharashtra</option>
+                <option>Manipur</option>
+                <option>Meghalaya</option>
+                <option>Mizoram</option>
+                <option>Nagaland</option>
+                <option>Odisha</option>
+                <option> Punjab</option>
+                <option>Rajasthan</option>
+                <option> Sikkim</option>
+                <option>Tamil Nadu</option>
+                <option>Telangana</option>
+                <option>Tripura</option>
+                <option>Uttar Pradesh</option>
+                <option> Uttarakhand</option>
+                <option>West Bengal</option>
+                <option>Chandigarh</option>
+                <option>Delhi</option>
+                <option>Jammu and Kashmir</option>
+                <option>Ladakh</option>
+                <option>Puducherry</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="inputZip" class="form-label">Zip</label>
+            <input id="zip" name="zip" type="text" class="form-control" required>
+        </div>
+        <div class="col-12 d-flex justify-content-end">
+            <button id='placeorder' name='placeorder' type="submit" class="btn btn-primary">PlaceOrder</button>
+        </div>
+    </form>
+</div>
+
+{% block js %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    // fetching cart 
+    if (localStorage.getItem('cart') == null) {
+        var cart = {}
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem('cart'))
+    }
+
+    // for displaying items of cart and their quantity
+    $('#items').empty()
+    var totalPrice = 0;
+    var sum = 0;
+    if ($.isEmptyObject(cart)) {
+        mystr = `<p>Your ShoppingCart is Empty! Please add items to your cart.</p>`
+        $('#items').append(mystr)
+    }
+
+    else {
+        for (item in cart) {
+            let qty = cart[item][0];
+            let name = cart[item][1];
+            sum = sum + qty;
+            let itemPrice = cart[item][2];
+            totalPrice = totalPrice + qty * itemPrice;
+            mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">`+ name + `</div>
+            </div>
+            <span class="badge bg-primary rounded-pill">`+ qty + `</span>
+        </li>`
+            $('#items').append(mystr)
+        }
+        // for dislaying total amount
+        document.getElementById('totalPrice').innerHTML = totalPrice;
+        $("#amount").val($('#totalPrice').html())
+
+    }
+    // displaying sum of all the problems in cart button
+    document.getElementById('cart').innerHTML = sum;
+    $('#itemJson').val(JSON.stringify(cart));
+    
+    // if clearcart button is clicked 
+    $('#clearcart').on('click', function () {
+        localStorage.clear();
+        alert('Your items has been removed successfully.')
+        document.location = "/shop"
+    });
+    
+</script>
+{% endblock js %}
+{% endblock body %}
